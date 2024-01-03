@@ -14,6 +14,8 @@ import NavBar from './components/NavBar/NavBar'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import BlogList from './pages/BlogList/BlogList'
 import BlogDetails from './pages/BlogDetails/BlogDetails'
+import NewBlog from './pages/NewBlog/NewBlog'
+import EditBlog from './pages/EditBlog/EditBlog'
 
 // services
 import * as authService from './services/authService'
@@ -35,6 +37,18 @@ function App() {
 
   const handleAuthEvt = () => {
     setUser(authService.getUser())
+  }
+
+  const handleAddBlog = async (blogFormData) => {
+    const newBlog = await blogService.create(blogFormData)
+    setBlogs([newBlog, ...blogs])
+    navigate('/blogs')
+  }
+
+  const handleUpdateBlog = async (updatedBlogFormData) => {
+    const updatedBlog = await blogService.update(updatedBlogFormData)
+    setBlogs((blogs.map((blog) => updatedBlogFormData._id === blog._id ? updatedBlog : blog)))
+    navigate(`/blogs/${updatedBlog._id}`)
   }
 
   useEffect(() => {
@@ -87,6 +101,22 @@ function App() {
           element={
             <ProtectedRoute user={user}>
               <BlogDetails user={user}/>
+            </ProtectedRoute>
+          }
+        />
+        <Route 
+          path="/blogs/new"
+          element={
+            <ProtectedRoute user={user}>
+              <NewBlog handleAddBlog={handleAddBlog}/>
+            </ProtectedRoute>
+          }
+        />
+        <Route 
+          path="/blogs/:blogId/edit"
+          element={
+            <ProtectedRoute user={user}>
+              <EditBlog handleUpdateBlog={handleUpdateBlog}/>
             </ProtectedRoute>
           }
         />
