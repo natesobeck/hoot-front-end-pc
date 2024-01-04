@@ -16,6 +16,7 @@ import BlogList from './pages/BlogList/BlogList'
 import BlogDetails from './pages/BlogDetails/BlogDetails'
 import NewBlog from './pages/NewBlog/NewBlog'
 import EditBlog from './pages/EditBlog/EditBlog'
+import EditComment from './pages/EditComment/EditComment'
 
 // services
 import * as authService from './services/authService'
@@ -125,6 +126,14 @@ function App() {
               <EditBlog handleUpdateBlog={handleUpdateBlog}/>
             </ProtectedRoute>
           }
+        />
+        <Route 
+          path="/blogs/:blogId/comments/:commentId" 
+          element={
+            <ProtectedRoute user={user}>
+              <EditComment />
+            </ProtectedRoute>
+          } 
         />
       </Routes>
     </>

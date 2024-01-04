@@ -1,16 +1,25 @@
-// components
+import { Link } from "react-router-dom"
 import AuthorInfo from "../AuthorInfo/AuthorInfo"
 
-const CommentCard = ({ comment }) => {
-  return (  
+const CommentCard = (props) => {
+  return (
     <article>
       <header>
-        <AuthorInfo content={comment} />
+        <span>
+          <AuthorInfo content={props.comment} />
+          {props.comment.author._id === props.user.profile &&
+            <>
+              <Link to={`/blogs/${props.blogId}/comments/${props.comment._id}`} state={props.comment}>
+                EDIT
+              </Link>
+              <button>DELETE</button>
+            </>
+          }
+        </span>
       </header>
-      <p>{comment.text}</p>
+      <p>{props.comment.text}</p>
     </article>
   )
 }
 
-
-export default CommentCard;
+export default CommentCard

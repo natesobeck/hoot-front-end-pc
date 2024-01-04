@@ -12,6 +12,7 @@ const Comments = (props) => {
           comment={comment}
           key={comment._id}
           user={props.user}
+          blogId={props.blogId}
         />
       ))}
     </>
